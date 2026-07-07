@@ -84,7 +84,7 @@ button {
   transition: background 160ms ease, letter-spacing 160ms ease;
 }
 
-.nav-link:lun,
+.nav-link:hover,
 .nav-link.active {
   background: #ffeef5;
   letter-spacing: 0.08em;
