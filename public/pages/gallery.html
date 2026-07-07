@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>gallery</title>
+  <link rel="stylesheet" href="shared.css">
+  <style>
+    body {
+      overflow-y: auto;
+      padding: 100px 60px 60px 120px;
+      background: linear-gradient(135deg, #fcebbf 0%, #8fbc93 100%);
+    }
+
+    h1 {
+      font-weight: 400;
+      font-size: 1.6rem;
+      text-align: center;
+      margin-bottom: 30px;
+      position: relative;
+      z-index: 5;
+    }
+
+    .collage {
+      position: relative;
+      z-index: 5;
+      max-width: 1000px;
+      margin: 0 auto;
+      column-count: 3;
+      column-gap: 16px;
+    }
+
+    .collage img {
+      width: 100%;
+      display: block;
+      margin-bottom: 16px;
+      border-radius: 12px;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.35);
+      break-inside: avoid;
+      transition: transform 0.4s ease;
+    }
+
+    .collage img:hover {
+      transform: scale(1.03) rotate(-1deg);
+    }
+
+    @media (max-width: 720px) {
+      body { padding: 90px 20px 40px; }
+      .collage { column-count: 2; }
+    }
+  </style>
+</head>
+<body>
+  <div class="eyebrow" style="position:relative; z-index:5; text-align:center; display:block;">everything else</div>
+  <h1>gallery</h1>
+
+  <div class="collage" id="collage"></div>
+
+  <script>
+    // 15 filler photos + floating emoji set — tweak both freely
+    const photoCount = 15;
+    const emojis = ["🤍","✨","🎀","🎂","💌","🌷","🫶","🕊️"];
+
+    const collage = document.getElementById('collage');
+    for (let i = 1; i <= photoCount; i++) {
+      const img = document.createElement('img');
+      img.src = `../assets/images/gallery${i}.jpg`;
+      img.alt = "";
+      collage.appendChild(img);
+    }
+
+    for (let i = 0; i < 18; i++) {
+      const span = document.createElement('span');
+      span.className = 'floating-emoji';
+      span.textContent = emojis[i % emojis.length];
+      span.style.fontSize = `${16 + Math.random() * 20}px`;
+      span.style.top = `${Math.random() * 100}%`;
+      span.style.left = `${Math.random() * 100}%`;
+      span.style.animationDelay = `${Math.random() * 8}s`;
+      span.style.animationDuration = `${8 + Math.random() * 6}s`;
+      span.style.opacity = 0.5 + Math.random() * 0.3;
+      document.body.appendChild(span);
+    }
+  </script>
+</body>
+</html>

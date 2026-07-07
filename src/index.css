@@ -1,0 +1,21 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+body {
+  background: radial-gradient(circle at top left, #eefee8 0%, #fcebbf 30%, #e9acbb 100%);
+  color: #3d3d3d;
+  font-family: 'Marcellus', serif;
+}
+
+button {
+  font: inherit;
+}

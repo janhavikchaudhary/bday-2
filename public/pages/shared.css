@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Marcellus&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  --wine: #0E0204;
+  --crimson: #A30E2B;
+  --blush: #DFBBCA;
+  --gold: #F0C75E;
+  --cream: #FBEFF1;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  font-family: 'Marcellus', serif;
+  background: linear-gradient(135deg, var(--wine), var(--crimson), var(--blush));
+  color: var(--cream);
+  overflow: hidden;
+}
+
+.eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: 0.85;
+}
+
+.floating {
+  position: absolute;
+  border-radius: 50%;
+  object-fit: cover;
+  opacity: 0.3;
+  pointer-events: none;
+  z-index: 1;
+  animation: floatY 12s ease-in-out infinite;
+}
+
+@keyframes floatY {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-40px); }
+}
+
+.floating-emoji {
+  position: absolute;
+  pointer-events: none;
+  z-index: 1;
+  animation: driftY 10s ease-in-out infinite;
+  user-select: none;
+}
+
+@keyframes driftY {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-30px) rotate(8deg); }
+}

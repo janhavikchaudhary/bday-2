@@ -1,0 +1,40 @@
+.logo-btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 100;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 2px solid #c9b297;
+  background: rgba(255, 255, 255, 0.86);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.3s ease, background 0.3s ease;
+  animation: nudge 4.5s ease-in-out infinite;
+  box-shadow: 0 15px 30px rgba(143, 188, 147, 0.15);
+}
+
+.logo-btn:hover {
+  border-color: #8fbc93;
+  background: #fcebbf;
+  animation-play-state: paused;
+  transform: scale(1.08) rotate(-4deg);
+}
+
+.logo-btn.is-open {
+  transform: rotate(315deg) scale(0.94);
+  border-color: #8fbc93;
+  animation: none;
+}
+
+@keyframes nudge {
+  0%, 80%, 100% { transform: rotate(0deg); }
+  84% { transform: rotate(-5deg); }
+  88% { transform: rotate(4deg); }
+  92% { transform: rotate(-2deg); }
+  96% { transform: rotate(0deg); }
+}
+

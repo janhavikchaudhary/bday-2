@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>us</title>
+  <link rel="stylesheet" href="shared.css">
+  <style>
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 70px 40px 110px;
+      background: linear-gradient(135deg, #8fbc93 0%, #c9b297 100%);
+    }
+
+    .wrapper {
+      text-align: center;
+      width: 100%;
+      max-width: 700px;
+      position: relative;
+      z-index: 5;
+    }
+
+    .hint {
+      margin-bottom: 20px;
+      font-size: 1.1rem;
+    }
+
+    .slideshow-container {
+      position: relative;
+      width: 100%;
+      height: 400px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .slides-wrapper {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .photo-box {
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+      cursor: pointer;
+      background: rgba(255,255,255,0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      left: 50%;
+    }
+
+    .photo-box.wrap-box {
+      position: relative;
+      left: 0;
+      transform: translateX(0) scale(1);
+      opacity: 1;
+      z-index: 10;
+    }
+
+    .photo-box.current { transform: translateX(-50%) scale(1); opacity: 1; z-index: 10; }
+    .photo-box.prev { transform: translateX(calc(-50% - 240px)) scale(0.72); opacity: 0.45; z-index: 5; }
+    .photo-box.next { transform: translateX(calc(-50% + 240px)) scale(0.72); opacity: 0.45; z-index: 5; }
+    .photo-box.hidden { opacity: 0; pointer-events: none; z-index: 0; }
+
+    .photo-box img { width: 100%; height: 100%; object-fit: cover; }
+
+    .nav-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.5);
+      border: none;
+      color: var(--cream);
+      font-size: 1.8rem;
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      cursor: pointer;
+      z-index: 20;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .nav-arrow:hover { background: rgba(0,0,0,0.7); transform: translateY(-50%) scale(1.1); }
+    .nav-arrow.left { left: 0; }
+    .nav-arrow.right { right: 0; }
+    .nav-arrow.active { display: flex; }
+
+    .caption { margin-top: 24px; font-size: 1rem; min-height: 2.5em; }
+
+    .dots-container { display: none; justify-content: center; gap: 8px; margin-top: 16px; }
+    .dots-container.active { display: flex; }
+    .dot { width: 9px; height: 9px; border-radius: 50%; background: rgba(255,255,255,0.4); cursor: pointer; transition: all 0.3s ease; }
+    .dot.active { background: var(--gold); width: 26px; border-radius: 5px; }
+  </style>
+</head>
+<body>
+  <img src="../assets/images/vflt1.jpg" class="floating" style="width:70px;height:70px;top:10%; left:6%; animation-delay:0s">
+  <img src="../assets/images/vflt4.jpg" class="floating" style="width:65px;height:65px;bottom:12%; right:8%; animation-delay:4s">
+
+  <div class="wrapper">
+    <span class="eyebrow">exhibit us</span>
+    <div class="hint" id="hint" style="margin-top:6px;">tap to unwrap</div>
+
+    <div class="slideshow-container">
+      <button class="nav-arrow left" id="prevBtn" onclick="goToPrev()">‹</button>
+      <div class="slides-wrapper" id="slidesWrapper">
+        <div class="photo-box wrap-box" id="wrapBox" onclick="unwrap()">
+          <img src="../assets/images/wrap.jpg" alt="">
+        </div>
+      </div>
+      <button class="nav-arrow right" id="nextBtn" onclick="goToNext()">›</button>
+    </div>
+
+    <div class="dots-container" id="dotsContainer"></div>
+    <div class="caption" id="caption"></div>
+  </div>
+
+  <script>
+    // 10 of us — swap filenames + captions freely
+    const photos = [
+      { src: "../assets/images/us1.jpg", text: "the start of it all" },
+      { src: "../assets/images/us2.jpg", text: "we were so unserious here" },
+      { src: "../assets/images/us3.jpg", text: "this is a core memory" },
+      { src: "../assets/images/us4.jpg", text: "why did we look like this" },
+      { src: "../assets/images/us5.jpg", text: "genuinely one of the good days" },
+      { src: "../assets/images/us6.jpg", text: "you're never living this one down" },
+      { src: "../assets/images/us7.jpg", text: "10/10 no notes" },
+      { src: "../assets/images/us8.jpg", text: "chaotic but we survived" },
+      { src: "../assets/images/us9.jpg", text: "this deserved a frame" },
+      { src: "../assets/images/us10.jpg", text: "and here we still are" },
+    ];
+
+    let currentIndex = 0;
+    let unwrapped = false;
+    const slidesWrapper = document.getElementById("slidesWrapper");
+    const caption = document.getElementById("caption");
+    const hint = document.getElementById("hint");
+    const wrapBox = document.getElementById("wrapBox");
+    const dotsContainer = document.getElementById("dotsContainer");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+
+    function unwrap() {
+      if (unwrapped) return;
+      unwrapped = true;
+      wrapBox.style.display = "none";
+      hint.textContent = "swipe through us";
+
+      photos.forEach((photo, i) => {
+        const box = document.createElement("div");
+        box.className = "photo-box hidden";
+        box.id = `photo-${i}`;
+        box.onclick = () => goToSlide(i);
+        const img = document.createElement("img");
+        img.src = photo.src;
+        box.appendChild(img);
+        slidesWrapper.appendChild(box);
+
+        const dot = document.createElement("div");
+        dot.className = "dot";
+        dot.onclick = () => goToSlide(i);
+        dotsContainer.appendChild(dot);
+      });
+
+      prevBtn.classList.add("active");
+      nextBtn.classList.add("active");
+      dotsContainer.classList.add("active");
+      updateSlideshow();
+    }
+
+    function updateSlideshow() {
+      photos.forEach((photo, i) => {
+        const box = document.getElementById(`photo-${i}`);
+        const dot = dotsContainer.children[i];
+        if (i === currentIndex) {
+          box.className = "photo-box current";
+          dot.className = "dot active";
+        } else if (i === currentIndex - 1 || (currentIndex === 0 && i === photos.length - 1)) {
+          box.className = "photo-box prev";
+          dot.className = "dot";
+        } else if (i === currentIndex + 1 || (currentIndex === photos.length - 1 && i === 0)) {
+          box.className = "photo-box next";
+          dot.className = "dot";
+        } else {
+          box.className = "photo-box hidden";
+          dot.className = "dot";
+        }
+      });
+      caption.textContent = photos[currentIndex].text;
+    }
+
+    function goToNext() {
+      if (!unwrapped) return;
+      currentIndex = (currentIndex + 1) % photos.length;
+      updateSlideshow();
+    }
+
+    function goToPrev() {
+      if (!unwrapped) return;
+      currentIndex = (currentIndex - 1 + photos.length) % photos.length;
+      updateSlideshow();
+    }
+
+    function goToSlide(index) {
+      if (!unwrapped || index === currentIndex) return;
+      currentIndex = index;
+      updateSlideshow();
+    }
+
+    document.addEventListener("keydown", (e) => {
+      if (!unwrapped) return;
+      if (e.key === "ArrowLeft") goToPrev();
+      if (e.key === "ArrowRight") goToNext();
+    });
+
+    let touchStartX = 0, touchEndX = 0;
+    document.addEventListener("touchstart", (e) => { touchStartX = e.changedTouches[0].screenX; });
+    document.addEventListener("touchend", (e) => { touchEndX = e.changedTouches[0].screenX; handleSwipe(); });
+    function handleSwipe() {
+      if (!unwrapped) return;
+      if (touchEndX < touchStartX - 50) goToNext();
+      if (touchEndX > touchStartX + 50) goToPrev();
+    }
+  </script>
+</body>
+</html>

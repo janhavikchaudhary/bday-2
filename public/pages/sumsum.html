@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>sum-sum</title>
+  <link rel="stylesheet" href="shared.css">
+  <style>
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      perspective: 900px;
+      background: linear-gradient(135deg, #eefee8 0%, #e9acbb 100%);
+    }
+
+    .stage {
+      position: relative;
+      z-index: 5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .hint { margin-bottom: 34px; font-size: 1.1rem; }
+
+    .gift {
+      position: relative;
+      width: 200px;
+      height: 160px;
+      cursor: pointer;
+      transform-style: preserve-3d;
+    }
+
+    .gift.opened { cursor: default; }
+
+    .box-body {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 110px;
+      background: var(--crimson);
+      border-radius: 6px;
+      box-shadow: 0 20px 45px rgba(0,0,0,0.4);
+    }
+
+    .ribbon-v {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 22px;
+      height: 110px;
+      background: var(--gold);
+      transform: translateX(-50%);
+    }
+
+    .box-lid {
+      position: absolute;
+      top: 26px;
+      left: -10px;
+      width: 220px;
+      height: 44px;
+      background: var(--crimson);
+      border-radius: 6px;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.35);
+      transform-origin: center;
+      transition: transform 0.8s cubic-bezier(0.6, 0, 0.4, 1), opacity 0.5s ease 0.4s;
+      z-index: 3;
+    }
+
+    .box-lid .ribbon-h {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 100%;
+      height: 12px;
+      background: var(--gold);
+      transform: translateY(-50%);
+    }
+
+    .box-lid .bow {
+      position: absolute;
+      top: -16px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 1.6rem;
+    }
+
+    .gift.opened .box-lid {
+      transform: translateY(-140px) rotate(-25deg);
+      opacity: 0;
+    }
+
+    .reveal {
+      margin-top: 40px;
+      background: var(--cream);
+      border-radius: 14px;
+      padding: 0;
+      max-width: 280px;
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      box-shadow: 0 20px 45px rgba(0,0,0,0.35);
+      transition: max-height 0.6s ease, opacity 0.5s ease, padding 0.6s ease;
+    }
+
+    .reveal.visible {
+      max-height: 340px;
+      opacity: 1;
+      padding: 24px;
+    }
+
+    .reveal img {
+      width: 100%;
+      border-radius: 8px;
+      display: block;
+    }
+
+    .reveal p {
+      color: #3a0a15;
+      text-align: center;
+      margin-top: 12px;
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+<body>
+  <img src="../assets/images/vflt5.jpg" class="floating" style="width:65px;height:65px;top:14%; left:10%; animation-delay:1s">
+  <img src="../assets/images/vflt2.jpg" class="floating" style="width:60px;height:60px;bottom:12%; right:10%; animation-delay:5s">
+
+  <div class="stage">
+    <div class="hint" id="hint">one more thing, tap it</div>
+
+    <div class="gift" id="gift" onclick="openGift()">
+      <div class="box-lid">
+        <div class="ribbon-h"></div>
+        <div class="bow">🎀</div>
+      </div>
+      <div class="box-body">
+        <div class="ribbon-v"></div>
+      </div>
+    </div>
+
+    <div class="reveal" id="reveal">
+      <img src="../assets/images/qr.jpg" alt="qr code">
+      <p>go on then, scan it</p>
+    </div>
+  </div>
+
+  <script>
+    function openGift() {
+      const gift = document.getElementById('gift');
+      if (gift.classList.contains('opened')) return;
+      gift.classList.add('opened');
+      document.getElementById('hint').textContent = 'sum-sum 🤍';
+      setTimeout(() => {
+        document.getElementById('reveal').classList.add('visible');
+      }, 400);
+    }
+  </script>
+</body>
+</html>
