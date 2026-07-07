@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>you</title>
+  <link rel="stylesheet" href="shared.css">
+  <style>
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 70px 40px 110px;
+      overflow-y: auto;
+      background: linear-gradient(135deg, #c9b297 0%, #eefee8 100%);
+    }
+
+    .wrap {
+      position: relative;
+      z-index: 5;
+      width: 100%;
+      max-width: 980px;
+      text-align: center;
+    }
+
+    .wrap .eyebrow {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    h1 {
+      font-weight: 400;
+      font-size: 1.6rem;
+      margin-bottom: 34px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .grid > *:nth-child(4) { grid-column: span 1; }
+
+    .butta {
+      position: relative;
+      aspect-ratio: 1 / 1;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 14px 34px rgba(0,0,0,0.35);
+      background: rgba(255,255,255,0.08);
+    }
+
+    .butta img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+
+    .butta:hover img {
+      transform: scale(1.06);
+    }
+
+    .butta .caption {
+      position: absolute;
+      inset: auto 0 0 0;
+      background: linear-gradient(0deg, rgba(14,2,4,0.92), transparent);
+      color: var(--cream);
+      font-size: 0.95rem;
+      padding: 26px 14px 12px;
+      transform: translateY(100%);
+      transition: transform 0.35s ease;
+    }
+
+    .butta:hover .caption {
+      transform: translateY(0);
+    }
+
+    @media (max-width: 700px) {
+      body { padding: 90px 20px 30px; }
+      .grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+  <img src="../assets/images/vflt3.jpg" class="floating" style="width:70px;height:70px;top:10%; left:6%; animation-delay:2s">
+  <img src="../assets/images/vflt5.jpg" class="floating" style="width:60px;height:60px;bottom:8%; right:8%; animation-delay:5s">
+
+  <div class="wrap">
+    <span class="eyebrow">just her</span>
+    <h1>you, mostly</h1>
+    <div class="grid" id="grid"></div>
+  </div>
+
+  <script>
+    const photos = [
+      { src: "../assets/images/you1.jpg", text: "this one's unfair honestly" },
+      { src: "../assets/images/you2.jpg", text: "certified cutie behavior" },
+      { src: "../assets/images/you3.jpg", text: "iconic era" },
+      { src: "../assets/images/you4.jpg", text: "no thoughts just this photo" },
+      { src: "../assets/images/you5.jpg", text: "okay this is the best one" },
+    ];
+
+    const grid = document.getElementById('grid');
+    photos.forEach(p => {
+      const butta = document.createElement('div');
+      butta.className = 'butta';
+      butta.innerHTML = `<img src="${p.src}" alt=""><div class="caption">${p.text}</div>`;
+      grid.appendChild(butta);
+    });
+  </script>
+</body>
+</html>

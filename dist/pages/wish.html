@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>wish</title>
+  <link rel="stylesheet" href="shared.css">
+  <style>
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      background: linear-gradient(135deg, #fcebbf 0%, #e9acbb 100%);
+    }
+
+    .stage {
+      position: relative;
+      z-index: 5;
+      width: 100%;
+      max-width: 600px;
+      padding: 0 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .hint {
+      font-size: 1.1rem;
+      margin-bottom: 26px;
+      opacity: 0.9;
+    }
+
+    .lifafa {
+      position: relative;
+      width: 280px;
+      height: 190px;
+      cursor: pointer;
+    }
+
+    .lifafa.opened { cursor: default; }
+
+    .env-body {
+      position: absolute;
+      inset: 0;
+      background: var(--blush);
+      border-radius: 6px;
+      box-shadow: 0 20px 45px rgba(0,0,0,0.4);
+    }
+
+    .env-flap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--crimson);
+      clip-path: polygon(0 0, 100% 0, 50% 55%);
+      transform-origin: top;
+      transition: transform 0.7s cubic-bezier(0.6, 0, 0.4, 1);
+      border-radius: 6px 6px 0 0;
+      z-index: 3;
+    }
+
+    .lifafa.opened .env-flap {
+      transform: rotateX(180deg);
+      z-index: 1;
+    }
+
+    .env-seal {
+      position: absolute;
+      top: 42%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      z-index: 4;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .lifafa.opened .env-seal {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.4);
+    }
+
+    .env-letter {
+      position: absolute;
+      left: 8%;
+      bottom: 6px;
+      width: 84%;
+      height: 70%;
+      background: var(--cream);
+      border-radius: 4px;
+      transform: translateY(0);
+      transition: transform 0.6s cubic-bezier(0.34, 1.2, 0.4, 1) 0.15s;
+      z-index: 2;
+    }
+
+    .lifafa.opened .env-letter {
+      transform: translateY(-165px);
+    }
+
+    .letter-butta {
+      margin-top: 34px;
+      background: var(--cream);
+      color: #3a0a15;
+      width: 100%;
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      border-radius: 10px;
+      box-shadow: 0 20px 45px rgba(0,0,0,0.35);
+      transition: max-height 0.7s ease, opacity 0.6s ease, padding 0.7s ease;
+    }
+
+    .letter-butta.visible {
+      max-height: 480px;
+      opacity: 1;
+      padding: 40px 44px;
+      overflow-y: auto;
+    }
+
+    .letter-butta p {
+      font-size: 1.05rem;
+      line-height: 1.9;
+      margin-bottom: 16px;
+    }
+
+    .letter-butta .sign-off {
+      margin-top: 26px;
+      font-style: italic;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <img src="../assets/images/vflt2.jpg" class="floating" style="width:75px;height:75px;top:12%; right:10%; animation-delay:1s">
+  <img src="../assets/images/vflt4.jpg" class="floating" style="width:65px;height:65px;bottom:14%; left:8%; animation-delay:3s">
+
+  <div class="stage">
+    <div class="hint" id="hint">tap the lifafa</div>
+
+    <div class="lifafa" id="lifafa" onclick="openlifafa()">
+      <div class="env-letter"></div>
+      <div class="env-body"></div>
+      <div class="env-flap"></div>
+      <div class="env-seal">🤍</div>
+    </div>
+
+    <div class="letter-butta" id="letterbutta">
+      <p>Hi you,</p>
+      <p>
+        (will write here baawe)
+      </p>
+      <p class="sign-off">— me</p>
+    </div>
+  </div>
+
+  <script>
+    function openlifafa() {
+      const env = document.getElementById('lifafa');
+      if (env.classList.contains('opened')) return;
+      env.classList.add('opened');
+      document.getElementById('hint').textContent = 'for you';
+      setTimeout(() => {
+        document.getElementById('letterbutta').classList.add('visible');
+      }, 500);
+    }
+  </script>
+</body>
+</html>
