@@ -64,7 +64,7 @@
   transition: color 0.25s ease, padding-left 0.25s ease, background 0.25s ease;
 }
 
-.sidebar button:hover {
+.sidebar button:lun {
   color: #8fbc93;
   background: rgba(255, 255, 255, 0.7);
   padding-left: 40px;

@@ -17,7 +17,7 @@
   box-shadow: 0 15px 30px rgba(143, 188, 147, 0.15);
 }
 
-.logo-btn:hover {
+.logo-btn:lun {
   border-color: #8fbc93;
   background: #fcebbf;
   animation-play-state: paused;

@@ -40,7 +40,7 @@
       transition: transform 0.4s ease;
     }
 
-    .collage img:hover {
+    .collage img:lun {
       transform: scale(1.03) rotate(-1deg);
     }
 
@@ -57,9 +57,8 @@
   <div class="collage" id="collage"></div>
 
   <script>
-    // 15 filler photos + floating emoji set — tweak both freely
     const photoCount = 15;
-    const emojis = ["🤍","✨","🎀","🎂","💌","🌷","🫶","🕊️"];
+    const emojis = ["🤍","✨","🎀","🎂","🫦","🌷","🫶","🕊️"];
 
     const collage = document.getElementById('collage');
     for (let i = 1; i <= photoCount; i++) {

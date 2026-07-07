@@ -31,15 +31,14 @@
       opacity: 0.9;
     }
 
-    /* envelope */
-    .envelope {
+    .lifafa {
       position: relative;
       width: 280px;
       height: 190px;
       cursor: pointer;
     }
 
-    .envelope.opened { cursor: default; }
+    .lifafa.opened { cursor: default; }
 
     .env-body {
       position: absolute;
@@ -63,7 +62,7 @@
       z-index: 3;
     }
 
-    .envelope.opened .env-flap {
+    .lifafa.opened .env-flap {
       transform: rotateX(180deg);
       z-index: 1;
     }
@@ -85,7 +84,7 @@
       transition: opacity 0.3s ease, transform 0.3s ease;
     }
 
-    .envelope.opened .env-seal {
+    .lifafa.opened .env-seal {
       opacity: 0;
       transform: translate(-50%, -50%) scale(0.4);
     }
@@ -103,12 +102,11 @@
       z-index: 2;
     }
 
-    .envelope.opened .env-letter {
+    .lifafa.opened .env-letter {
       transform: translateY(-165px);
     }
 
-    /* letter card */
-    .letter-card {
+    .letter-butta {
       margin-top: 34px;
       background: var(--cream);
       color: #3a0a15;
@@ -121,20 +119,20 @@
       transition: max-height 0.7s ease, opacity 0.6s ease, padding 0.7s ease;
     }
 
-    .letter-card.visible {
+    .letter-butta.visible {
       max-height: 480px;
       opacity: 1;
       padding: 40px 44px;
       overflow-y: auto;
     }
 
-    .letter-card p {
+    .letter-butta p {
       font-size: 1.05rem;
       line-height: 1.9;
       margin-bottom: 16px;
     }
 
-    .letter-card .sign-off {
+    .letter-butta .sign-off {
       margin-top: 26px;
       font-style: italic;
       opacity: 0.8;
@@ -146,35 +144,32 @@
   <img src="../assets/images/vflt4.jpg" class="floating" style="width:65px;height:65px;bottom:14%; left:8%; animation-delay:3s">
 
   <div class="stage">
-    <div class="hint" id="hint">tap the envelope</div>
+    <div class="hint" id="hint">tap the lifafa</div>
 
-    <div class="envelope" id="envelope" onclick="openEnvelope()">
+    <div class="lifafa" id="lifafa" onclick="openlifafa()">
       <div class="env-letter"></div>
       <div class="env-body"></div>
       <div class="env-flap"></div>
       <div class="env-seal">🤍</div>
     </div>
 
-    <div class="letter-card" id="letterCard">
-      <!-- replace this with the actual letter -->
+    <div class="letter-butta" id="letterbutta">
       <p>Hi you,</p>
       <p>
-        This whole site was basically an excuse to say things I'm bad at
-        saying out loud, so here we are — paste the real letter into this
-        div in wish.html and it'll show up right here, scrollable and all.
+        (will write here baawe)
       </p>
       <p class="sign-off">— me</p>
     </div>
   </div>
 
   <script>
-    function openEnvelope() {
-      const env = document.getElementById('envelope');
+    function openlifafa() {
+      const env = document.getElementById('lifafa');
       if (env.classList.contains('opened')) return;
       env.classList.add('opened');
       document.getElementById('hint').textContent = 'for you';
       setTimeout(() => {
-        document.getElementById('letterCard').classList.add('visible');
+        document.getElementById('letterbutta').classList.add('visible');
       }, 500);
     }
   </script>

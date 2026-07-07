@@ -41,17 +41,17 @@ button {
   gap: 0.9rem;
 }
 
-.logo-card,
-.nav-card,
-.photo-card,
-.message-card,
+.logo-butta,
+.nav-butta,
+.photo-butta,
+.message-butta,
 .music-pill,
-.breakup-card {
+.breakup-butta {
   border: 5px solid #202020;
   box-shadow: 0 10px 0 rgba(32, 32, 32, 0.05);
 }
 
-.logo-card {
+.logo-butta {
   width: 64px;
   height: 64px;
   display: grid;
@@ -62,7 +62,7 @@ button {
   font-size: 2.3rem;
 }
 
-.nav-card {
+.nav-butta {
   width: 100%;
   min-height: calc(100vh - 8rem);
   overflow: hidden;
@@ -84,7 +84,7 @@ button {
   transition: background 160ms ease, letter-spacing 160ms ease;
 }
 
-.nav-link:hover,
+.nav-link:lun,
 .nav-link.active {
   background: #ffeef5;
   letter-spacing: 0.08em;
@@ -94,7 +94,7 @@ button {
   padding-top: 4.1rem;
 }
 
-.photu-card {
+.photu-butta {
   min-height: 305px;
   display: grid;
   place-items: center;
@@ -110,7 +110,7 @@ button {
   letter-spacing: 0.02em;
 }
 
-.message-card {
+.message-butta {
   width: min(88%, 440px);
   min-height: 295px;
   display: flex;
@@ -142,7 +142,7 @@ button {
   font-weight: 700;
 }
 
-.breakup-card {
+.breakup-butta {
   width: min(100%, 445px);
   min-height: 505px;
   display: grid;
@@ -166,7 +166,7 @@ button {
     gap: 1.5rem;
   }
 
-  .breakup-card {
+  .breakup-butta {
     min-height: 250px;
   }
 }
@@ -180,7 +180,7 @@ button {
     position: static;
   }
 
-  .nav-card {
+  .nav-butta {
     min-height: auto;
   }
 
