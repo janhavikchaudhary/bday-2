@@ -21,56 +21,35 @@
       z-index: 5;
     }
 
-    .collage {
-      position: relative;
-      z-index: 5;
-      max-width: 1000px;
-      margin: 0 auto;
-      column-count: 3;
-      column-gap: 16px;
-    }
-
-    .collage img {
-      width: 100%;
-      display: block;
-      margin-bottom: 16px;
-      border-radius: 12px;
-      box-shadow: 0 12px 28px rgba(0,0,0,0.35);
-      break-inside: avoid;
-      transition: transform 0.4s ease;
-    }
-
-    .collage img:hover {
-      transform: scale(1.03) rotate(-1deg);
-    }
-
-    .floating-card {
+    .floating-photos {
       position: fixed;
-      right: 24px;
-      bottom: 24px;
+      inset: 0;
       z-index: 25;
-      animation: floatSoft 4.8s ease-in-out infinite;
+      pointer-events: none;
     }
 
-    .floating-card button {
-      width: 112px;
-      height: 112px;
+    .floating-photo {
+      position: absolute;
+      width: 46px;
+      height: 46px;
       padding: 0;
       border: none;
-      border-radius: 20px;
+      border-radius: 12px;
       overflow: hidden;
-      background: rgba(255,255,255,0.65);
-      box-shadow: 0 16px 40px rgba(0,0,0,0.2);
+      background: rgba(255,255,255,0.7);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.16);
       cursor: pointer;
-      transition: transform 0.35s ease, box-shadow 0.35s ease;
+      pointer-events: auto;
+      animation: floatSoft 4.5s ease-in-out infinite;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-    .floating-card button:hover {
-      transform: translateY(-4px) scale(1.02);
-      box-shadow: 0 20px 48px rgba(0,0,0,0.25);
+    .floating-photo:hover {
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 16px 36px rgba(0,0,0,0.24);
     }
 
-    .floating-card img {
+    .floating-photo img {
       width: 100%;
       height: 100%;
       object-fit: cover;
@@ -141,9 +120,7 @@
 
     @media (max-width: 720px) {
       body { padding: 90px 20px 40px; }
-      .collage { column-count: 2; }
-      .floating-card { right: 16px; bottom: 16px; }
-      .floating-card button { width: 96px; height: 96px; }
+      .floating-photo { width: 40px; height: 40px; }
     }
   </style>
 </head>
@@ -151,59 +128,20 @@
   <div class="eyebrow" style="position:relative; z-index:5; text-align:center; display:block;">everything else</div>
   <h1>gallery</h1>
 
-  <div class="collage" id="collage"></div>
-
   <script>
     const photoCount = 15;
     const emojis = ["🤍","✨","🎀","🎂","🫦","🌷","🫶","🕊️"];
-    const preferredImages = ['15.jpg', 'gallery15.jpg', '15903404930638232.jpg'];
 
-    const collage = document.getElementById('collage');
-    for (let i = 1; i <= photoCount; i++) {
-      const img = document.createElement('img');
-      img.src = `../assets/images/gallery${i}.jpg`;
-      img.alt = "";
-      collage.appendChild(img);
-    }
-
-    const floatingCard = document.createElement('div');
-    floatingCard.className = 'floating-card';
-
-    const floatingButton = document.createElement('button');
-    floatingButton.type = 'button';
-    floatingButton.setAttribute('aria-label', 'Open the framed photo');
-
-    const floatingImg = document.createElement('img');
-    floatingImg.alt = 'A soft framed photo';
-    floatingImg.src = `../assets/images/${preferredImages[0]}`;
-
-    const assignImage = (idx) => {
-      if (idx >= preferredImages.length) return;
-      const candidate = preferredImages[idx];
-      floatingImg.src = `../assets/images/${candidate}`;
-      floatingImg.onerror = () => assignImage(idx + 1);
-    };
-
-    floatingImg.addEventListener('error', () => assignImage(1));
-    assignImage(0);
-
-    floatingButton.appendChild(floatingImg);
-    floatingButton.addEventListener('click', () => {
-      modal.classList.add('active');
-    });
-    floatingCard.appendChild(floatingButton);
-    document.body.appendChild(floatingCard);
+    const floatingPhotos = document.createElement('div');
+    floatingPhotos.className = 'floating-photos';
+    document.body.appendChild(floatingPhotos);
 
     const modal = document.createElement('div');
     modal.className = 'frame-modal';
-
     const framePanel = document.createElement('div');
     framePanel.className = 'frame-panel';
-
     const modalImage = document.createElement('img');
     modalImage.alt = 'Framed photo';
-    modalImage.src = floatingImg.src;
-
     const closeButton = document.createElement('button');
     closeButton.className = 'frame-close';
     closeButton.type = 'button';
@@ -220,6 +158,29 @@
         modal.classList.remove('active');
       }
     });
+
+    const showImage = (src) => {
+      modalImage.src = src;
+      modal.classList.add('active');
+    };
+
+    for (let i = 1; i <= photoCount; i++) {
+      const floatingButton = document.createElement('button');
+      floatingButton.type = 'button';
+      floatingButton.className = 'floating-photo';
+      floatingButton.setAttribute('aria-label', `Open photo ${i}`);
+      floatingButton.style.animationDelay = `${i * 0.14}s`;
+      floatingButton.style.top = `${8 + Math.random() * 80}%`;
+      floatingButton.style.left = `${4 + Math.random() * 90}%`;
+      floatingButton.style.transform = `rotate(${Math.random() * 16 - 8}deg)`;
+
+      const floatingImg = document.createElement('img');
+      floatingImg.src = `../assets/images/${i}.jpg`;
+      floatingImg.alt = `photo ${i}`;
+      floatingButton.appendChild(floatingImg);
+      floatingButton.addEventListener('click', () => showImage(floatingImg.src));
+      floatingPhotos.appendChild(floatingButton);
+    }
 
     for (let i = 0; i < 18; i++) {
       const span = document.createElement('span');
