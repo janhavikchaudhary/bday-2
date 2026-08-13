@@ -202,9 +202,6 @@
   </style>
 </head>
 <body>
-  <img src="../assets/images/vflt1.jpg" class="floating" style="width:80px;height:80px;top:8%; left:6%; animation-delay:0s">
-  <img src="../assets/images/vflt2.jpg" class="floating" style="width:70px;height:70px;top:15%; right:8%; animation-delay:2s">
-  <img src="../assets/images/vflt3.jpg" class="floating" style="width:85px;height:85px;bottom:10%; left:10%; animation-delay:4s">
 
   <div class="heading">
     <span class="eyebrow">happy birthday</span>
@@ -247,6 +244,21 @@
 
     document.getElementById('typed-title').textContent = title;
     document.getElementById('caption-line').textContent = caption;
+  </script>
+  <script>
+    const emojis = ["🤍","✨","🎀","🎂","🫦","🌷","🫶","🕊️"];
+    for (let i = 0; i < 18; i++) {
+      const span = document.createElement('span');
+      span.className = 'floating-emoji';
+      span.textContent = emojis[i % emojis.length];
+      span.style.fontSize = `${16 + Math.random() * 20}px`;
+      span.style.top = `${Math.random() * 100}%`;
+      span.style.left = `${Math.random() * 100}%`;
+      span.style.animationDelay = `${Math.random() * 8}s`;
+      span.style.animationDuration = `${8 + Math.random() * 6}s`;
+      span.style.opacity = 0.5 + Math.random() * 0.3;
+      document.body.appendChild(span);
+    }
   </script>
   <script src="shared-audio.js"></script>
 </body>

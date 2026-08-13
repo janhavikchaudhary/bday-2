@@ -21,7 +21,6 @@
     try {
       localStorage.setItem(storageKey, JSON.stringify(nextState));
     } catch {
-      // ignore storage errors
     }
   };
 

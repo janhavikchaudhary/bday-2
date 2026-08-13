@@ -109,8 +109,6 @@
   </style>
 </head>
 <body>
-  <img src="../assets/images/vflt1.jpg" class="floating" style="width:70px;height:70px;top:10%; left:6%; animation-delay:0s">
-  <img src="../assets/images/vflt4.jpg" class="floating" style="width:65px;height:65px;bottom:12%; right:8%; animation-delay:4s">
 
   <div class="wrapper">
     <span class="eyebrow">exhibit us</span>
@@ -234,6 +232,21 @@
       if (!unwrapped) return;
       if (touchEndX < touchStartX - 50) goToNext();
       if (touchEndX > touchStartX + 50) goToPrev();
+    }
+  </script>
+  <script>
+    const emojis = ["🤍","✨","🎀","🎂","🫦","🌷","🫶","🕊️"];
+    for (let i = 0; i < 18; i++) {
+      const span = document.createElement('span');
+      span.className = 'floating-emoji';
+      span.textContent = emojis[i % emojis.length];
+      span.style.fontSize = `${16 + Math.random() * 20}px`;
+      span.style.top = `${Math.random() * 100}%`;
+      span.style.left = `${Math.random() * 100}%`;
+      span.style.animationDelay = `${Math.random() * 8}s`;
+      span.style.animationDuration = `${8 + Math.random() * 6}s`;
+      span.style.opacity = 0.5 + Math.random() * 0.3;
+      document.body.appendChild(span);
     }
   </script>
   <script src="shared-audio.js"></script>
