@@ -19,6 +19,17 @@
       margin-bottom: 30px;
       position: relative;
       z-index: 5;
+      color: rgba(14, 2, 4, 0.72);
+      text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+      letter-spacing: 0.08em;
+    }
+
+    .eyebrow {
+      color: rgba(14, 2, 4, 0.6);
+      text-shadow: 0 1px 0 rgba(255,255,255,0.4);
+      letter-spacing: 0.2em;
+      font-size: 0.68rem;
+      opacity: 0.9;
     }
 
     .floating-photos {
@@ -30,23 +41,25 @@
 
     .floating-photo {
       position: absolute;
-      width: 46px;
-      height: 46px;
+      width: 54px;
+      height: 54px;
       padding: 0;
-      border: none;
-      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.6);
+      border-radius: 14px;
       overflow: hidden;
-      background: rgba(255,255,255,0.7);
-      box-shadow: 0 10px 24px rgba(0,0,0,0.16);
+      background: rgba(255,255,255,0.5);
+      box-shadow: 0 12px 22px rgba(88, 104, 75, 0.14);
       cursor: pointer;
       pointer-events: auto;
-      animation: floatSoft 4.5s ease-in-out infinite;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      animation: floatSoft 4.8s ease-in-out infinite;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease;
+      backdrop-filter: blur(4px);
     }
 
     .floating-photo:hover {
-      transform: translateY(-3px) scale(1.03);
-      box-shadow: 0 16px 36px rgba(0,0,0,0.24);
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: 0 16px 28px rgba(88, 104, 75, 0.2);
+      filter: saturate(1.08);
     }
 
     .floating-photo img {
@@ -164,18 +177,52 @@
       modal.classList.add('active');
     };
 
+    const photoSize = window.innerWidth <= 720 ? 40 : 54;
+    const occupiedPositions = [];
+
     for (let i = 1; i <= photoCount; i++) {
+      let left = 0;
+      let top = 0;
+      let placed = false;
+
+      for (let attempt = 0; attempt < 300; attempt++) {
+        const maxLeft = Math.max(24, window.innerWidth - photoSize - 24);
+        const maxTop = Math.max(24, window.innerHeight - photoSize - 24);
+        left = 18 + Math.random() * (maxLeft - 18);
+        top = 18 + Math.random() * (maxTop - 18);
+
+        const overlaps = occupiedPositions.some((position) => {
+          const horizontalGap = Math.abs(position.left - left);
+          const verticalGap = Math.abs(position.top - top);
+          return horizontalGap < (position.size + photoSize) * 0.7 && verticalGap < (position.size + photoSize) * 0.7;
+        });
+
+        if (!overlaps) {
+          placed = true;
+          break;
+        }
+      }
+
+      if (!placed) {
+        left = 18 + ((i * 97) % 70);
+        top = 18 + ((i * 53) % 70);
+      }
+
+      occupiedPositions.push({ left, top, size: photoSize });
+
       const floatingButton = document.createElement('button');
       floatingButton.type = 'button';
       floatingButton.className = 'floating-photo';
       floatingButton.setAttribute('aria-label', `Open photo ${i}`);
       floatingButton.style.animationDelay = `${i * 0.14}s`;
-      floatingButton.style.top = `${8 + Math.random() * 80}%`;
-      floatingButton.style.left = `${4 + Math.random() * 90}%`;
+      floatingButton.style.left = `${left}px`;
+      floatingButton.style.top = `${top}px`;
+      floatingButton.style.width = `${photoSize}px`;
+      floatingButton.style.height = `${photoSize}px`;
       floatingButton.style.transform = `rotate(${Math.random() * 16 - 8}deg)`;
 
       const floatingImg = document.createElement('img');
-      floatingImg.src = `../assets/images/${i}.jpg`;
+      floatingImg.src = `../assets/images/${i}.jpeg`;
       floatingImg.alt = `photo ${i}`;
       floatingButton.appendChild(floatingImg);
       floatingButton.addEventListener('click', () => showImage(floatingImg.src));
@@ -195,5 +242,6 @@
       document.body.appendChild(span);
     }
   </script>
+  <script src="shared-audio.js"></script>
 </body>
 </html>

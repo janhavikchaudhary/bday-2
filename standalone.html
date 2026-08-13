@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>namoskar yawr</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    min-height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #ffe1ec 0%, #e0f7f1 35%, #fff6d9 70%, #e6e1fb 100%);
+    background-size: 300% 300%;
+    animation: gradientShift 18s ease infinite;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow-x: hidden;
+    position: relative;
+    padding: 20px;
+  }
+
+  @keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .emoji {
+    position: fixed;
+    top: -10%;
+    font-size: 2rem;
+    opacity: 0.85;
+    pointer-events: none;
+    animation: floatDown linear infinite;
+    z-index: 1;
+    user-select: none;
+  }
+
+  @keyframes floatDown {
+    0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.85; }
+    90% { opacity: 0.85; }
+    100% { transform: translateY(110vh) translateX(30px) rotate(360deg); opacity: 0; }
+  }
+
+  .card {
+    position: relative;
+    z-index: 2;
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-radius: 28px;
+    padding: 28px;
+    max-width: 900px;
+    width: 100%;
+    box-shadow: 0 20px 45px rgba(154, 130, 200, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    text-align: center;
+  }
+
+  h1 {
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    background: linear-gradient(90deg, #ff9ec7, #7ee0c3, #ffd97e);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 6px;
+    letter-spacing: 0.5px;
+  }
+
+  .subtitle {
+    color: #8a7e9c;
+    font-size: 0.95rem;
+    margin-bottom: 22px;
+  }
+
+  .video-wrap {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 12px 30px rgba(180, 150, 210, 0.35);
+    background: #000;
+    border: 4px solid rgba(255, 255, 255, 0.7);
+  }
+
+  video {
+    width: 100%;
+    display: block;
+    max-height: 70vh;
+    background: #111;
+  }
+
+  .missing {
+    padding: 60px 20px;
+    color: #b98ab0;
+    font-size: 1rem;
+    background: repeating-linear-gradient(45deg, #fff0f6, #fff0f6 10px, #ffe9f2 10px, #ffe9f2 20px);
+  }
+
+  .missing span { font-size: 2.2rem; display: block; margin-bottom: 10px; }
+
+  footer {
+    margin-top: 18px;
+    font-size: 0.8rem;
+    color: #a596b8;
+  }
+
+  @media (max-width: 600px) {
+    .card { padding: 18px; border-radius: 20px; }
+    .emoji { font-size: 1.4rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <h1>Dhaniya 🌿✨</h1>
+  <p class="subtitle">hepi boda dhaniyaaaaa</p>
+  <div class="video-wrap">
+    <video controls autoplay loop playsinline>
+      <source src="Dhaniya.mp4" type="video/mp4">
+      <div class="missing">
+        <span>🎥</span>
+        Oops! Couldn't find "Dhaniya.mp4"
+      </div>
+    </video>
+  </div>
+  <footer>love uuuuuuu</footer>
+</div>
+
+<script>
+  const emojis = ['🌿','🌸','✨','🍃','💐','🌼','🧡','🌺','💫','🌱'];
+  const container = document.body;
+
+  function spawnEmoji() {
+    const el = document.createElement('div');
+    el.className = 'emoji';
+    el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    el.style.left = Math.random() * 100 + 'vw';
+    const duration = 8 + Math.random() * 10;
+    el.style.animationDuration = duration + 's';
+    el.style.fontSize = (1.2 + Math.random() * 1.6) + 'rem';
+    container.appendChild(el);
+    setTimeout(() => el.remove(), duration * 1000);
+  }
+
+  for (let i = 0; i < 8; i++) {
+    setTimeout(spawnEmoji, i * 500);
+  }
+  setInterval(spawnEmoji, 900);
+</script>
+
+</body>
+</html>

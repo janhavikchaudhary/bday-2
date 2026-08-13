@@ -125,8 +125,6 @@
   </style>
 </head>
 <body>
-  <img src="../assets/images/vflt5.jpg" class="floating" style="width:65px;height:65px;top:14%; left:10%; animation-delay:1s">
-  <img src="../assets/images/vflt2.jpg" class="floating" style="width:60px;height:60px;bottom:12%; right:10%; animation-delay:5s">
 
   <div class="stage">
     <div class="hint" id="hint">one more thing, tap it</div>
@@ -158,5 +156,21 @@
       }, 400);
     }
   </script>
+  <script>
+    const emojis = ["🤍","✨","🎀","🎂","🫦","🌷","🫶","🕊️"];
+    for (let i = 0; i < 18; i++) {
+      const span = document.createElement('span');
+      span.className = 'floating-emoji';
+      span.textContent = emojis[i % emojis.length];
+      span.style.fontSize = `${16 + Math.random() * 20}px`;
+      span.style.top = `${Math.random() * 100}%`;
+      span.style.left = `${Math.random() * 100}%`;
+      span.style.animationDelay = `${Math.random() * 8}s`;
+      span.style.animationDuration = `${8 + Math.random() * 6}s`;
+      span.style.opacity = 0.5 + Math.random() * 0.3;
+      document.body.appendChild(span);
+    }
+  </script>
+  <script src="shared-audio.js"></script>
 </body>
 </html>

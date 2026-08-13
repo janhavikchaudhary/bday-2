@@ -67,8 +67,8 @@
 
     .caption-line {
       font-size: 1.1rem;
-      color: var(--cream);
-      opacity: 0.9;
+      color: #f7a7c6;
+      opacity: 0.95;
       padding-left: 4px;
     }
 
@@ -80,6 +80,23 @@
       align-items: center;
       gap: 12px;
       font-size: 1.05rem;
+      cursor: pointer;
+      position: relative;
+      overflow: visible;
+      z-index: 5;
+    }
+
+    .playing-box .playing-text {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .playing-box .track-hint {
+      font-size: 0.85rem;
+      color: rgba(14, 2, 4, 0.75);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
     }
 
     .playing-box .bars {
@@ -87,6 +104,67 @@
       gap: 3px;
       align-items: flex-end;
       height: 16px;
+    }
+
+    .track-popup {
+      position: absolute;
+      left: 0;
+      top: calc(100% + 14px);
+      width: min(100%, 280px);
+      background: rgba(255, 255, 255, 0.94);
+      color: #0e0204;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.18);
+      border-radius: 18px;
+      padding: 14px;
+      z-index: 30;
+      backdrop-filter: blur(18px);
+      transform-origin: top left;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(0.97);
+    }
+
+    .track-popup:not([hidden]) {
+      opacity: 1;
+      pointer-events: auto;
+      transform: scale(1);
+    }
+
+    .track-popup-title {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 10px;
+      color: #4d2303;
+    }
+
+    .track-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .track-list button {
+      border: 1px solid rgba(14, 2, 4, 0.12);
+      border-radius: 999px;
+      padding: 10px 14px;
+      background: #fff;
+      color: #0e0204;
+      font-family: inherit;
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .track-list button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+    }
+
+    .track-list button.active {
+      background: #f0c75e;
+      border-color: rgba(14, 2, 4, 0.18);
+      color: #0e0204;
     }
 
     .playing-box .bars span {
@@ -101,30 +179,6 @@
     @keyframes eq {
       0%, 100% { transform: scaleY(0.4); }
       50% { transform: scaleY(1); }
-    }
-
-    .joke-box {
-      background: var(--gold);
-      color: var(--wine);
-      flex: 1;
-      min-height: 260px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      font-size: 1.6rem;
-      padding: 30px;
-      position: relative;
-      cursor: default;
-    }
-
-    .joke-box .small-note {
-      position: absolute;
-      bottom: 18px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.65rem;
-      opacity: 0.55;
-      letter-spacing: 0.05em;
     }
 
     .heading {
@@ -148,42 +202,64 @@
   </style>
 </head>
 <body>
-  <img src="../assets/images/vflt1.jpg" class="floating" style="width:80px;height:80px;top:8%; left:6%; animation-delay:0s">
-  <img src="../assets/images/vflt2.jpg" class="floating" style="width:70px;height:70px;top:15%; right:8%; animation-delay:2s">
-  <img src="../assets/images/vflt3.jpg" class="floating" style="width:85px;height:85px;bottom:10%; left:10%; animation-delay:4s">
 
   <div class="heading">
     <span class="eyebrow">happy birthday</span>
-    <h1 id="typed-title"></h1>
+    <h1 id="typed-title" style="color:#f6a7c6;">happy birthday</h1>
   </div>
 
   <div class="grid">
     <div class="col-left">
       <div class="box photo-box">
-        <img src="../assets/images/home-photo.jpg" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+        <img src="../assets/images/home-photo.jpeg" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
         <div class="fallback" style="display:none;">drop home-photo.jpg into<br>assets/images/</div>
       </div>
       <div class="caption-line" id="caption-line"></div>
     </div>
 
     <div class="col-right">
-      <div class="box playing-box">
+      <div class="box playing-box" id="playing-box" title="Click to choose a song">
         <div class="bars"><span></span><span></span><span></span></div>
-        <span id="now-playing">currently playing: xyz</span>
-      </div>
-      <div class="box joke-box">
-        <span id="joke-text">lets breakup &lt;/3</span>
-        <span class="small-note">jk jk (unless...)</span>
+        <div class="playing-text">
+          <span id="now-playing">currently playing: xyz</span>
+          <span class="track-hint">click to choose a song</span>
+        </div>
+        <div class="track-popup" id="track-popup" hidden>
+          <div class="track-popup-title">choose a song</div>
+          <div class="track-list">
+            <button type="button" data-track="songs1">Jaan ho meri</button>
+            <button type="button" data-track="songs2">Khat</button>
+            <button type="button" data-track="songs3">Pyaari amaanat</button>
+            <button type="button" data-track="songs4">Main rang sharbaton ka</button>
+            <button type="button" data-track="songs5">August</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
   <script>
-    const title = "for my favorite person";
-    const caption = "boday gourlllllllll yayyyyyyyyyyyy";
+    const title = "happy birthday";
+    const caption = "for idk whooooooo";
 
     document.getElementById('typed-title').textContent = title;
     document.getElementById('caption-line').textContent = caption;
   </script>
+  <script>
+    const emojis = ["🤍","✨","🎀","🎂","🫦","🌷","🫶","🕊️"];
+    for (let i = 0; i < 18; i++) {
+      const span = document.createElement('span');
+      span.className = 'floating-emoji';
+      span.textContent = emojis[i % emojis.length];
+      span.style.fontSize = `${16 + Math.random() * 20}px`;
+      span.style.top = `${Math.random() * 100}%`;
+      span.style.left = `${Math.random() * 100}%`;
+      span.style.animationDelay = `${Math.random() * 8}s`;
+      span.style.animationDuration = `${8 + Math.random() * 6}s`;
+      span.style.opacity = 0.5 + Math.random() * 0.3;
+      document.body.appendChild(span);
+    }
+  </script>
+  <script src="shared-audio.js"></script>
 </body>
 </html>
